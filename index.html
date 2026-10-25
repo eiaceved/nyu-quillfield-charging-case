@@ -1,0 +1,1077 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Quillfield Charging Case</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: one reading column (max 820px) under a sticky step rail. Every step runs the same loop:
+   interviewer prompt -> your move -> reveal a strong answer. Exhibits sit inside the column like workpapers. */
+:root{
+  --bg:#f2f5f6; --surface:#ffffff; --surface-2:#e8eef0; --fg:#13202a; --fg-2:#44525d; --muted:#6c7a84; --line:#d4dce0;
+  --accent:#0d6b61; --accent-ink:#0a5a51; --accent-soft:#dbeeea; --on-accent:#ffffff;
+  --s1:#2a78d6; --s2:#eb6834; --grid:#e2e8ea; --axis:#b6c1c7;
+  --good:#0ca30c; --good-ink:#006300; --crit:#d03b3b; --crit-ink:#ad2828;
+  --h1:#e6f0fc; --h2:#b7d3f6; --h3:#6da7ec; --h4:#2a78d6; --h5:#104281;
+  --dot:#eb6834; --dot-ink:#111111; --tip-bg:#13202a; --tip-fg:#ffffff;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1215; --surface:#151c20; --surface-2:#1b252a; --fg:#e5ecef; --fg-2:#a8b4bb; --muted:#7c8992; --line:#29343a;
+    --accent:#4cc2b1; --accent-ink:#72d4c6; --accent-soft:#11302c; --on-accent:#06201c;
+    --s1:#3987e5; --s2:#d95926; --grid:#222c32; --axis:#3a464d;
+    --good:#0ca30c; --good-ink:#3dc43d; --crit:#d03b3b; --crit-ink:#ff8484;
+    --h1:#1a2531; --h2:#1c3c63; --h3:#22599b; --h4:#3987e5; --h5:#86b6ef;
+    --dot:#f07a45; --dot-ink:#111111; --tip-bg:#e5ecef; --tip-fg:#0d1215;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1215; --surface:#151c20; --surface-2:#1b252a; --fg:#e5ecef; --fg-2:#a8b4bb; --muted:#7c8992; --line:#29343a;
+  --accent:#4cc2b1; --accent-ink:#72d4c6; --accent-soft:#11302c; --on-accent:#06201c;
+  --s1:#3987e5; --s2:#d95926; --grid:#222c32; --axis:#3a464d;
+  --good:#0ca30c; --good-ink:#3dc43d; --crit:#d03b3b; --crit-ink:#ff8484;
+  --h1:#1a2531; --h2:#1c3c63; --h3:#22599b; --h4:#3987e5; --h5:#86b6ef;
+  --dot:#f07a45; --dot-ink:#111111; --tip-bg:#e5ecef; --tip-fg:#0d1215;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);font-stretch:86%;text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0 0 .8em}
+a{color:var(--accent-ink)}
+b,strong{font-weight:700}
+.eyebrow,.lbl,.who{font:500 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.rail-in{max-width:820px;margin:0 auto;padding:8px 20px;display:flex;gap:10px;align-items:center}
+.chips{display:flex;gap:4px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding-block:2px}
+.chips::-webkit-scrollbar{display:none}
+.chips a{font:500 12px var(--mono);padding:5px 9px;border-radius:999px;color:var(--fg-2);white-space:nowrap;text-decoration:none}
+.chips a:hover{background:var(--surface-2)}
+.chips a.on{background:var(--fg);color:var(--bg)}
+.speed{display:flex;align-items:center;gap:6px;font:500 11px var(--mono);color:var(--muted);flex:none}
+.speed select{font:500 12px var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:3px 4px}
+
+/* hero */
+.hero{padding-block:56px 40px}
+.hero .eyebrow{color:var(--accent-ink);margin-bottom:14px}
+.hero h1{font-size:clamp(40px,8vw,64px);line-height:1;font-weight:800;font-stretch:80%}
+.lede{font-size:21px;line-height:1.5;color:var(--fg-2);max-width:36em;margin-top:18px}
+.how{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.how li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;font-size:15px;line-height:1.4;counter-increment:how}
+.how li::before{content:counter(how);display:block;font:600 12px var(--mono);color:var(--accent-ink);margin-bottom:4px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+/* steps */
+.step{padding-block:52px;border-top:1px solid var(--line);scroll-margin-top:56px}
+.sh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.idx{font:600 13px var(--mono);color:var(--accent-ink)}
+.sh h2{font-size:clamp(26px,4.4vw,32px);line-height:1.15;font-weight:750}
+.sh .listen{margin-left:auto}
+.sub{color:var(--fg-2);margin-top:8px;max-width:40em}
+
+.btn{font:600 14px/1.2 var(--body);border-radius:8px;padding:9px 14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.small{font-size:13px;padding:6px 10px}
+.btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn svg{width:14px;height:14px;fill:currentColor;flex:none}
+
+.iv{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin-top:22px}
+.who{color:var(--muted);margin-bottom:8px}
+.iv p{font-size:19px;line-height:1.55}
+.iv p:last-child{margin-bottom:0}
+
+.move{display:flex;gap:12px 16px;align-items:center;flex-wrap:wrap;margin-top:18px;padding-block:14px;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+.move .lbl{color:var(--accent-ink);flex:none}
+.move p{margin:0;flex:1 1 260px;min-width:0;font-weight:600}
+.move .acts{display:flex;gap:8px;flex-wrap:wrap}
+
+.ans{background:var(--accent-soft);border-radius:var(--r);padding:20px 22px;margin-top:14px}
+.ans .who{color:var(--accent-ink)}
+.ans h3{font-size:19px;margin:18px 0 8px;font-weight:700}
+.ans h3:first-of-type{margin-top:4px}
+.ans ul{margin:0 0 .6em;padding-left:1.2em}
+.ans li{margin-bottom:.35em}
+.script{font-size:18px;line-height:1.6}
+.script p{margin-bottom:.7em}
+.note{font-size:15px;color:var(--fg-2)}
+
+/* facts strip */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:16px}
+.facts div{background:var(--surface);padding:12px 14px;min-width:0}
+.facts .k{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.facts .v{font:700 22px/1.2 var(--display);font-stretch:86%;margin-top:4px}
+.facts .d{font-size:13px;color:var(--fg-2);line-height:1.35;margin-top:2px}
+
+/* primer */
+.def{font:600 clamp(21px,3.4vw,26px)/1.35 var(--display);font-stretch:92%;margin-top:22px;max-width:30em}
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;min-width:0}
+.panel h3{font-size:19px;font-weight:700}
+.panel .tag{font:500 11px var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:2px 0 8px}
+.panel ul{margin:0;padding-left:1.1em;font-size:16px}
+.panel li{margin-bottom:.3em}
+.cycle{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.cycle li{position:relative;background:var(--surface-2);border-radius:8px;padding:12px 12px 10px;min-width:0}
+.cycle li b{display:block;font:700 17px var(--display);font-stretch:88%}
+.cycle li span{font-size:14px;color:var(--fg-2);line-height:1.35;display:block;margin-top:2px}
+.cycle li:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:12px;height:12px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:translateY(-50%) rotate(45deg)}
+.cycle-note{font:500 12px var(--mono);color:var(--muted);margin-top:10px}
+.vocab{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.term b{display:block;font:700 16px var(--display);font-stretch:90%;margin-bottom:3px}
+.term p{margin:0;font-size:15px;line-height:1.45;color:var(--fg-2)}
+.h-sec{font:500 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:30px}
+
+/* qa list */
+.qa{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.qa li{background:var(--surface);border-radius:8px;padding:12px 14px}
+.qa .q{font-weight:700}
+.qa .a{color:var(--fg-2);margin-top:2px}
+.qa .a::before{content:"Interviewer: ";font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* framework tree */
+.tree{margin-top:6px}
+.root{background:var(--fg);color:var(--bg);border-radius:8px;padding:12px 16px;font:700 18px/1.3 var(--display);font-stretch:90%;text-align:center;position:relative}
+.root::after{content:"";position:absolute;left:50%;bottom:-16px;width:2px;height:16px;background:var(--muted)}
+.branches{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px;padding-top:14px;border-top:2px solid var(--muted)}
+.branch{background:var(--surface);border-radius:8px;padding:12px 13px;min-width:0}
+.branch .n{font:600 12px var(--mono);color:var(--accent-ink)}
+.branch b{display:block;font:700 16px/1.25 var(--display);font-stretch:90%;margin:2px 0 6px}
+.branch ul{margin:0;padding-left:1.05em;font-size:14.5px;line-height:1.4}
+.branch li{margin-bottom:.3em}
+
+/* exhibits */
+.ex{margin:22px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 14px}
+.ex-h{display:flex;justify-content:space-between;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+.ex-t{font:700 18px var(--display);font-stretch:88%}
+.ex-ref{font:500 12px var(--mono);color:var(--muted)}
+.ex-s{font-size:14px;color:var(--fg-2);margin-top:2px}
+.ex figcaption,.src{font:400 12px/1.45 var(--mono);color:var(--muted);margin-top:12px}
+.multiples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.mini{border:1px solid var(--grid);border-radius:8px;padding:10px 10px 4px;min-width:0}
+.mini .nm{font-weight:700;font-size:14.5px;line-height:1.25;min-height:2.5em}
+.mini .ch{font:500 12px var(--mono);color:var(--fg-2)}
+.mini svg{display:block;width:100%;height:auto;margin-top:4px}
+.tblwrap{overflow-x:auto;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--grid);white-space:nowrap}
+th{font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+
+.hbar{margin-top:16px}
+.hrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:4px 14px;align-items:center;padding-block:9px;border-bottom:1px solid var(--grid)}
+.hrow:last-of-type{border-bottom:0}
+.hlab b{display:block;font-size:15px;line-height:1.3}
+.hlab span{font-size:13px;color:var(--fg-2);line-height:1.3;display:block}
+.track{position:relative;height:26px}
+.bar{position:absolute;left:0;top:5px;height:16px;border-radius:0 4px 4px 0;background:var(--s1);min-width:2px}
+.bar.b2{background:var(--s2)}
+.bval{position:absolute;top:2px;font:600 13px var(--mono);color:var(--fg);white-space:nowrap;padding-left:6px}
+.tol{position:absolute;top:-4px;bottom:-4px;width:0;border-left:1.5px solid var(--fg-2)}
+.axis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:14px}
+.ticks{position:relative;height:18px;font:500 11px var(--mono);color:var(--muted);border-top:1px solid var(--axis)}
+.ticks span{position:absolute;top:3px;transform:translateX(-50%)}
+.ticks span:first-child{transform:none}
+.ticks span:last-child{transform:translateX(-100%)}
+.status{font:600 12px var(--mono);display:inline-flex;gap:5px;align-items:center;margin-top:3px}
+.status.bad{color:var(--crit-ink)} .status.ok{color:var(--good-ink)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--fg-2);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.tolnote{font:500 12px var(--mono);color:var(--fg-2);margin-top:8px}
+
+/* given table + calc steps */
+.given{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:16px}
+.given div{background:var(--surface);padding:11px 13px;min-width:0}
+.given .k{font-size:13px;color:var(--fg-2);line-height:1.3}
+.given .v{font:700 20px/1.2 var(--display);font-stretch:88%;margin-top:3px}
+.calc{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.calc li{background:var(--surface);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center}
+.calc .t{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);grid-column:1/-1}
+.calc .f{font-size:16px;min-width:0}
+.calc .r{font:700 20px var(--display);font-stretch:88%;text-align:right;white-space:nowrap}
+.stepper .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chipset{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chipset span{font:500 12px var(--mono);background:var(--surface);border-radius:6px;padding:4px 8px;color:var(--fg-2)}
+.chipset b{color:var(--fg)}
+
+/* heat map */
+.heat{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:12px}
+.heat svg{width:100%;height:auto;display:block}
+.heat svg text{font-family:var(--mono)}
+.reg{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.reg li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:14.5px;line-height:1.3;padding-block:6px;border-bottom:1px solid var(--grid)}
+.reg .id{width:28px;height:28px;border-radius:50%;background:var(--dot);color:var(--dot-ink);font:600 11px var(--mono);display:grid;place-items:center}
+.reg .sc{font:600 13px var(--mono);color:var(--fg-2);text-align:right;white-space:nowrap}
+.ramp{display:flex;align-items:center;gap:6px;font:500 11px var(--mono);color:var(--muted);margin-top:10px}
+.ramp i{width:22px;height:10px;display:inline-block;border-radius:2px}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
+.phase{background:var(--surface);border-radius:8px;padding:12px 14px;min-width:0}
+.phase .d{font:600 12px var(--mono);color:var(--accent-ink)}
+.phase b{display:block;font:700 18px var(--display);font-stretch:88%;margin:2px 0 6px}
+.phase ul{margin:0;padding-left:1.05em;font-size:15px;line-height:1.4}
+.phase li{margin-bottom:.35em}
+.struct{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.struct span{font:600 12px var(--mono);padding:4px 9px;border-radius:999px;background:var(--surface);color:var(--fg)}
+
+/* drivers */
+.drivers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
+.drivers div{background:var(--surface);border-radius:8px;padding:11px 13px;min-width:0}
+.drivers b{display:block;font:700 16px var(--display);font-stretch:90%}
+.drivers p{margin:2px 0 0;font-size:15px;color:var(--fg-2);line-height:1.45}
+.eq{font:600 15px var(--mono);background:var(--surface);border-radius:8px;padding:10px 14px;margin:6px 0 12px;overflow-x:auto}
+.drill{margin-top:34px}
+.drill h3{font-size:22px;font-weight:750}
+
+/* multiple choice */
+.mc{margin-top:20px}
+.mc-head{display:flex;gap:10px;align-items:flex-start}
+.stem{font-weight:700;font-size:18px;line-height:1.45;margin:0 0 10px;flex:1;min-width:0}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);font:inherit;font-size:16px;line-height:1.45;cursor:pointer;width:100%}
+.opt:hover:not([disabled]){border-color:var(--muted)}
+.opt[disabled]{cursor:default}
+.opt .L{font:600 13px/1.6 var(--mono);color:var(--muted);flex:none}
+.opt .x{flex:1;min-width:0}
+.opt .tag{font:600 12px/1.7 var(--mono);white-space:nowrap;flex:none}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.opt.right .tag{color:var(--good-ink)}
+.opt.wrong{border-color:var(--crit);background:color-mix(in srgb,var(--crit) 9%,var(--surface))}
+.opt.wrong .tag{color:var(--crit-ink)}
+.why{margin-top:10px;padding:13px 16px;border-radius:8px;background:var(--surface-2);font-size:16px}
+.why p:last-child{margin-bottom:0}
+.test .mc{border-top:1px solid var(--line);padding-top:20px;margin-top:22px}
+.test .mc:first-of-type{border-top:0;padding-top:0}
+.qn{font:600 13px var(--mono);color:var(--accent-ink);display:block;margin-bottom:2px}
+.scorebar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);z-index:5;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--bg);padding-block:10px;margin-top:14px;border-bottom:1px solid var(--line)}
+.score{font:700 22px var(--display);font-stretch:86%}
+.score small{font:500 12px var(--mono);color:var(--muted);margin-left:6px}
+.done{background:var(--accent-soft);border-radius:var(--r);padding:16px 18px;margin-top:24px}
+
+footer{padding-block:40px 64px;border-top:1px solid var(--line);font-size:14px;color:var(--fg-2)}
+
+#tip{position:fixed;z-index:50;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);font:500 12px/1.4 var(--mono);padding:6px 9px;border-radius:6px;max-width:260px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+
+@media (max-width:760px){
+  .branches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .heat{grid-template-columns:minmax(0,1fr)}
+  .road{grid-template-columns:minmax(0,1fr)}
+  .multiples{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .how{grid-template-columns:minmax(0,1fr)}
+  .split,.vocab,.drivers{grid-template-columns:minmax(0,1fr)}
+  .cycle{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cycle li:nth-child(2)::after{display:none}
+  .given{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hrow,.axis{grid-template-columns:minmax(0,1fr)}
+  .axis>div:first-child{display:none}
+  .iv p{font-size:18px}
+  .speed span{display:none}
+}
+@media (max-width:420px){
+  .branches{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ans:not([hidden]),.why:not([hidden]),.calc li:not([hidden]){animation:rise .28s ease-out}
+  @keyframes rise{from{transform:translateY(4px);opacity:.4}to{transform:none;opacity:1}}
+  html{scroll-behavior:smooth}
+}
+[hidden]:not([hidden=until-found i]){display:none!important}
+/* scoring register */
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+.scorer li{grid-template-columns:auto minmax(0,1fr) auto}
+.scorer .nm{min-width:0}
+.pick{display:flex;gap:6px;align-items:center}
+.pick select{font:500 13px var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 4px;min-width:44px}
+.pick .sc{min-width:34px}
+.reg .w{display:block;font-size:13px;color:var(--fg-2);margin-top:2px;line-height:1.35}
+.reg .nm b{font-weight:600}
+.mytop{font:600 15px/1.4 var(--body);margin:12px 0 0;color:var(--fg)}
+.mapnote{font:500 12px var(--mono);color:var(--fg-2);margin:8px 0 0}
+.bar.b3{background:var(--fg-2)}
+/* voice menu */
+.voicebar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:22px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.voicebar label{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.voicebar select{flex:1 1 220px;min-width:0;max-width:100%;font:500 13px var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 6px}
+.vhint{flex-basis:100%;margin:0;font-size:14px;line-height:1.45;color:var(--fg-2)}
+@media (max-width:600px){.given>div:last-child:nth-child(odd){grid-column:1/-1}}
+@media (max-width:420px){
+  .scorer li{grid-template-columns:auto minmax(0,1fr)}
+  .scorer .pick{grid-column:2}
+}
+</style>
+<style>
+/* calculators */
+.calcbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-top:22px}
+.calcbox h3{font-size:19px;font-weight:700;margin:0 0 4px}
+.calcbox .sub{margin-top:2px;font-size:15px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px 14px;margin-top:12px}
+.cgrid label{display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.3;color:var(--fg-2);min-width:0}
+.cgrid input{font:500 15px var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:7px 8px;width:100%;min-width:0}
+.cout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.cout div{background:var(--surface-2);border-radius:8px;padding:10px 12px;min-width:0}
+.cout .k{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cout .v{font:700 22px/1.2 var(--display);font-stretch:86%;margin-top:3px}
+.cnote{font-size:15px;line-height:1.5;color:var(--fg-2);margin:12px 0 0}
+.cbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gb{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.gb .ans{margin-top:0}
+@media (max-width:600px){.gb{grid-template-columns:minmax(0,1fr)}}
+.reps{display:grid;gap:12px;margin-top:14px}
+.rep{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.rep .rq{font-weight:700;font-size:17px;margin:0 0 8px}
+.rep .acts{display:flex;gap:8px;flex-wrap:wrap}
+.rep .ans{margin-top:12px}
+.tw th,.tw td{white-space:normal}
+@media (max-width:600px){.tw th,.tw td{padding:6px 5px;font-size:13.5px}.tw th{font-size:10px}}
+</style>
+
+<nav class="rail" aria-label="Case steps">
+  <div class="rail-in">
+    <div class="chips" id="chips">
+      <a href="#primer">Primer</a><a href="#prompt">Prompt</a><a href="#clarify">Clarify</a><a href="#framework">Q1 Framework</a><a href="#ex1">Q2 Break-even</a><a href="#ex2">Q3 Sites</a><a href="#sizing">Q4 Membership</a><a href="#prioritize">Q5 Levers</a><a href="#recommend">Recommend</a><a href="#drills">Drills</a><a href="#test">Test</a>
+    </div>
+    <label class="speed" for="rate"><span>Speed</span>
+      <select id="rate" aria-label="Read-aloud speed">
+        <option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option>
+      </select>
+    </label>
+  </div>
+</nav>
+
+<main>
+<header class="hero wrap">
+  <p class="eyebrow">NYU Stern casebook style · interviewer-led · about 30 minutes</p>
+  <h1>Quillfield Charging</h1>
+  <p class="lede" data-say>An EV fast-charging company is building 40 new highway stations and has to decide how to price them, and where to build. Work out what a station needs to break even, which sites pay back, and whether a commuter membership helps or hurts.</p>
+  <div class="facts" style="margin-top:20px">
+    <div><div class="k">Led by</div><div class="v">Interviewer</div><div class="d">Five questions, one at a time</div></div>
+    <div><div class="k">Quant</div><div class="v">8 / 10</div><div class="d">Break-even, payback, unit math</div></div>
+    <div><div class="k">Structure</div><div class="v">6 / 10</div><div class="d">Pricing and site framework</div></div>
+    <div><div class="k">Case type</div><div class="v">Pricing</div><div class="d">Energy and mobility</div></div>
+  </div>
+  <ol class="how">
+    <li><b>Listen or read</b> each question. Every step has a Listen button.</li>
+    <li><b>Answer out loud</b> before you reveal anything. Use the timers.</li>
+    <li><b>Compare</b> with the strong answer, then take the next question.</li>
+  </ol>
+  <div class="hero-actions">
+    <a class="btn primary" href="#prompt">Start the case</a>
+    <a class="btn" href="#primer">2-minute primer first</a>
+    <a class="btn" href="#ex1">Jump to the break-even math</a>
+  </div>
+  <div class="voicebar">
+    <label for="voicePick">Read-aloud voice</label>
+    <select id="voicePick"></select>
+    <button class="btn small" type="button" id="voiceTest">Try it</button>
+    <p class="vhint">Sounds robotic? Pick a voice marked "natural." For the most human voices, open this page in Microsoft Edge, which includes free natural voices. On a Mac, you can also download a Premium voice in System Settings › Accessibility › Spoken Content › System voice › Manage Voices.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- 01 PRIMER -->
+<section class="step" id="primer">
+  <div class="sh"><span class="idx">01</span><h2>How this case works</h2><button class="btn small listen" type="button">Listen</button></div>
+  <p class="def" data-say>This is an interviewer-led case. Instead of you driving, the interviewer asks a series of questions, and each one tests a different skill: structure, break-even math, reading an exhibit, and pricing judgment. Answer each one crisply, then tie it back to the client's question.</p>
+  <p class="sub" data-say>NYU Stern's casebook rates each case for Quant and Structure from 1 to 10. This is an original case written in that style, rated 8 for quant and 6 for structure. The company and numbers are invented.</p>
+  <div class="split">
+    <div class="panel">
+      <h3>The math you'll use</h3>
+      <p class="tag">Break-even, two ways</p>
+      <ul data-say>
+        <li><b>Contribution per session</b> = (price − energy cost) × energy per session.</li>
+        <li><b>Break-even sessions</b> = yearly fixed costs ÷ contribution per session.</li>
+        <li><b>Payback</b> = build cost ÷ yearly profit.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>What this page adds</h3>
+      <p class="tag">Practice tools</p>
+      <ul data-say>
+        <li>A station calculator and a membership calculator.</li>
+        <li>Pilot-site data to test which locations pay back.</li>
+        <li>A lever heat map, drills, and a 12-question test.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="h-sec">Ten terms to drop naturally</p>
+  <div class="vocab">
+    <div class="term" data-say><b>Kilowatt-hour (kWh)</b><p>The unit of energy chargers sell. A typical fast-charging session here delivers about 40 kWh.</p></div>
+    <div class="term" data-say><b>Session</b><p>One car, one charge. Revenue is sessions times energy per session times price.</p></div>
+    <div class="term" data-say><b>Utilization</b><p>How much of the day a charger is actually in use. Low utilization is the main reason charging stations lose money.</p></div>
+    <div class="term" data-say><b>Contribution</b><p>What each session leaves after its own cost, the electricity, to help cover fixed costs.</p></div>
+    <div class="term" data-say><b>Fixed costs</b><p>Costs that don't change with sessions: site lease, maintenance, software, and the utility's monthly demand charges.</p></div>
+    <div class="term" data-say><b>Demand charge</b><p>A monthly utility fee based on a site's peak power draw. It's a big fixed cost for fast chargers.</p></div>
+    <div class="term" data-say><b>Payback period</b><p>How many years of profit it takes to earn back the cost of building a station.</p></div>
+    <div class="term" data-say><b>Membership pricing</b><p>A monthly fee in exchange for a lower price per unit. It rewards frequent customers.</p></div>
+    <div class="term" data-say><b>Cannibalization</b><p>When a discount goes to customers who would have paid full price anyway.</p></div>
+    <div class="term" data-say><b>Self-selection</b><p>Designing an offer so only the customers you want choose it, like a fee that only pays off for frequent users.</p></div>
+  </div>
+</section>
+
+<!-- 02 PROMPT -->
+<section class="step" id="prompt">
+  <div class="sh"><span class="idx">02</span><h2>The case prompt</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>Our client, Quillfield Charging, runs fast electric-vehicle chargers at highway rest stops in the Northeast. It's building 40 new stations next year.</p>
+    <p data-say>Today it charges a flat 45 cents per kilowatt-hour. Management is considering adding a 15 dollar monthly membership that cuts the price to 35 cents. The CEO wants to know: how should Quillfield price its charging, and where should it build?</p>
+  </div>
+  <div class="facts">
+    <div><div class="k">Client</div><div class="v">Quillfield</div><div class="d">Highway fast charging</div></div>
+    <div><div class="k">Plan</div><div class="v">40 stations</div><div class="d">Built next year</div></div>
+    <div><div class="k">Price today</div><div class="v">$0.45</div><div class="d">Per kWh, everyone</div></div>
+    <div><div class="k">Option</div><div class="v">$15 / month</div><div class="d">Members pay $0.35 per kWh</div></div>
+  </div>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Restate the question in one sentence before you do anything else.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="20">20s timer</button><button class="btn primary small reveal" type="button" aria-controls="a-prompt" aria-expanded="false">Show a strong answer</button></div>
+  </div>
+  <div class="ans" id="a-prompt" hidden>
+    <p class="who">Strong answer</p>
+    <div class="script"><p data-say>"So Quillfield needs two decisions for its 40 new stations: whether to add a membership on top of the flat 45 cent price, and which sites to build at so each station earns its money back. Is that right?"</p></div>
+    <p class="note" data-say>Interviewer: "Yes." Splitting the prompt into two decisions, pricing and location, sets up the whole case.</p>
+  </div>
+</section>
+
+<!-- 03 CLARIFY -->
+<section class="step" id="clarify">
+  <div class="sh"><span class="idx">03</span><h2>Clarifying questions</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Ask two or three clarifying questions. Pick ones whose answers would change your approach.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="60">60s timer</button><button class="btn primary small reveal" type="button" aria-controls="a-clarify" aria-expanded="false">Show strong questions</button></div>
+  </div>
+  <div class="ans" id="a-clarify" hidden>
+    <p class="who">Strong questions, with the interviewer's answers</p>
+    <ul class="qa">
+      <li data-say><div class="q">What does success look like for the CEO?</div><div class="a">Each new station should be profitable and earn back its build cost within about 7 years.</div></li>
+      <li data-say><div class="q">Who are the customers?</div><div class="a">Two groups: commuters who charge on the same route most weekdays, about 30 percent of sessions, and long-distance travelers, about 70 percent.</div></li>
+      <li data-say><div class="q">What do competitors charge?</div><div class="a">Two other networks on the same highways charge 45 to 50 cents per kWh. Neither has a membership.</div></li>
+      <li data-say><div class="q">What does electricity cost Quillfield?</div><div class="a">About 15 cents per kWh, plus fixed yearly costs per station.</div></li>
+    </ul>
+    <p class="note" style="margin-top:12px" data-say>The first answer gives you the test for every station: profitable, and paid back in about 7 years. The customer split will matter for the membership question.</p>
+  </div>
+</section>
+
+<!-- 04 Q1 -->
+<section class="step" id="framework">
+  <div class="sh"><span class="idx">04</span><h2>Question 1: what would you look at?</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>What factors would you consider to decide how Quillfield should price, and where it should build?</p>
+  </div>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Take 60 seconds. Cover customers, station economics, pricing options, and competition.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="60">60s timer</button><button class="btn primary small reveal" type="button" aria-controls="a-frame" aria-expanded="false">Show a strong framework</button></div>
+  </div>
+  <div class="ans" id="a-frame" hidden>
+    <p class="who">Strong framework</p>
+    <div class="tree">
+      <div class="root">How should Quillfield price, and where should it build?</div>
+      <div class="branches">
+        <div class="branch"><span class="n">1</span><b>Customers</b><ul><li>Commuters vs. travelers</li><li>How often each charges</li><li>What each will pay</li></ul></div>
+        <div class="branch"><span class="n">2</span><b>Station economics</b><ul><li>Contribution per session</li><li>Fixed costs and break-even</li><li>Build cost and payback</li></ul></div>
+        <div class="branch"><span class="n">3</span><b>Pricing options</b><ul><li>Flat price vs. membership</li><li>Time-of-day pricing</li><li>Who'd take a discount anyway</li></ul></div>
+        <div class="branch"><span class="n">4</span><b>Competition and sites</b><ul><li>Rival prices and locations</li><li>Traffic at each site</li><li>Brand and reliability</li></ul></div>
+      </div>
+    </div>
+    <h3>Say it like this</h3>
+    <div class="script"><p data-say>"I'd look at four things. First, customers: commuters and travelers charge very differently and value different things. Second, station economics: what each session contributes, what a station costs to run, and how many sessions it needs to break even and pay back. Third, pricing options: whether a membership brings in more charging or just discounts people who'd pay full price anyway. Fourth, competition and sites: rival prices and how much traffic each location gets. I'd start with station economics, because that tells us what any price has to achieve."</p></div>
+    <h3>Why it works</h3>
+    <ul data-say>
+      <li>It covers both decisions in the prompt, pricing and location.</li>
+      <li>It flags cannibalization up front, the key risk of any discount.</li>
+      <li>It picks a starting point, which an interviewer-led case will then confirm or redirect.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 05 Q2 -->
+<section class="step" id="ex1">
+  <div class="sh"><span class="idx">05</span><h2>Question 2: what does a station need to break even?</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>Here are the station economics at today's price. How many sessions a day does a station need to break even? And how long does it take to pay back the build cost at 45 sessions a day?</p>
+  </div>
+  <div class="given">
+    <div><div class="k">Price per kWh</div><div class="v">$0.45</div></div>
+    <div><div class="k">Electricity cost per kWh</div><div class="v">$0.15</div></div>
+    <div><div class="k">Energy per session</div><div class="v">40 kWh</div></div>
+    <div><div class="k">Fixed costs per station</div><div class="v">$108K / yr</div></div>
+    <div><div class="k">Build cost per station</div><div class="v">$540K</div></div>
+    <div><div class="k">Chargers per station</div><div class="v">4</div></div>
+  </div>
+  <p class="src">Assume 360 days a year to keep the math clean. A session takes about 30 minutes.</p>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Find the contribution per session first. Then divide fixed costs by it.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="90">90s timer</button><button class="btn small reveal" type="button" aria-controls="h-be" aria-expanded="false">Show hint</button></div>
+  </div>
+  <div class="ans" id="h-be" hidden>
+    <p class="who">Hint: per kWh, then per session</p>
+    <p data-say>Each kWh earns 45 cents and costs 15, so it leaves 30 cents. A session is 40 kWh. Multiply to get what one session contributes.</p>
+  </div>
+  <div class="stepper" style="margin-top:14px">
+    <ol class="calc">
+      <li class="st" hidden data-say="Step 1. Margin per kWh. 45 cents minus 15 cents is 30 cents."><span class="t">1 · Margin per kWh</span><span class="f">$0.45 − $0.15</span><span class="r tnum">$0.30</span></li>
+      <li class="st" hidden data-say="Step 2. Contribution per session. 30 cents times 40 kWh is 12 dollars."><span class="t">2 · Per session</span><span class="f">$0.30 × 40 kWh</span><span class="r tnum">$12</span></li>
+      <li class="st" hidden data-say="Step 3. Break-even. 108 thousand divided by 12 is 9 thousand sessions a year. Divided by 360 days, that's 25 sessions a day."><span class="t">3 · Break-even</span><span class="f">$108,000 ÷ $12 = 9,000 a year ÷ 360</span><span class="r tnum">25 a day</span></li>
+      <li class="st" hidden data-say="Step 4. Sanity check. 25 sessions across 4 chargers is about 6 per charger. At 30 minutes each, that's about 3 hours of use a day, or about 13 percent of the day. Plausible at a busy highway stop."><span class="t">4 · Sanity check</span><span class="f">≈6 per charger × 30 min ≈ 3 hours, 13% of the day</span><span class="r tnum">✓</span></li>
+      <li class="st" hidden data-say="Step 5. Profit at 45 a day. 20 sessions above break-even, times 12 dollars, times 360 days, is 86,400 dollars a year."><span class="t">5 · Profit at 45 a day</span><span class="f">(45 − 25) × $12 × 360</span><span class="r tnum">$86.4K</span></li>
+      <li class="st" hidden data-say="Step 6. Payback. 540 thousand divided by 86,400 is 6.25 years. Inside the CEO's 7-year target."><span class="t">6 · Payback</span><span class="f">$540,000 ÷ $86,400</span><span class="r tnum">6.25 yrs</span></li>
+    </ol>
+    <div class="row"><button class="btn primary small next" type="button">Reveal step 1 of 6</button><button class="btn small reset" type="button">Start over</button></div>
+  </div>
+  <div class="mc" data-answer="2">
+    <div class="mc-head"><p class="stem" data-say>Quick check: if the price stays at 45 cents but electricity rises to 20 cents, what's the new break-even?</p></div>
+    <div class="opts">
+      <button class="opt" type="button" data-say>About 25 sessions a day</button>
+      <button class="opt" type="button" data-say>About 27 sessions a day</button>
+      <button class="opt" type="button" data-say>30 sessions a day</button>
+      <button class="opt" type="button" data-say>About 35 sessions a day</button>
+    </div>
+    <div class="why" hidden><p data-say>The margin drops to 25 cents, so a session contributes 10 dollars. 108 thousand divided by 10 is 10,800 a year, or 30 a day. A 5 cent cost increase raises break-even by 20 percent.</p></div>
+  </div>
+  <div class="calcbox">
+    <h3>Station calculator</h3>
+    <p class="sub">Starts with the case numbers. Try a higher electricity cost or fewer sessions.</p>
+    <div class="cgrid">
+      <label for="st-price">Price per kWh ($)<input id="st-price" type="number" min="0" step="0.01" value="0.45"></label>
+      <label for="st-cost">Electricity per kWh ($)<input id="st-cost" type="number" min="0" step="0.01" value="0.15"></label>
+      <label for="st-kwh">kWh per session<input id="st-kwh" type="number" min="1" step="1" value="40"></label>
+      <label for="st-fixed">Fixed costs a year ($)<input id="st-fixed" type="number" min="0" step="1000" value="108000"></label>
+      <label for="st-build">Build cost ($)<input id="st-build" type="number" min="0" step="10000" value="540000"></label>
+      <label for="st-sess">Sessions a day<input id="st-sess" type="number" min="0" step="1" value="45"></label>
+    </div>
+    <div class="cout">
+      <div><div class="k">Break-even</div><div class="v" id="st-be">–</div></div>
+      <div><div class="k">Profit a year</div><div class="v" id="st-pro">–</div></div>
+      <div><div class="k">Payback</div><div class="v" id="st-pb">–</div></div>
+    </div>
+    <p class="cnote" id="st-note" aria-live="polite"></p>
+    <div class="cbtns"><button class="btn small" type="button" id="st-reset">Reset to case numbers</button></div>
+  </div>
+</section>
+
+<!-- 06 Q3 -->
+<section class="step" id="ex2">
+  <div class="sh"><span class="idx">06</span><h2>Question 3: which sites pay back?</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>Quillfield ran 8 pilot stations last year. Here are their average sessions a day. What does this tell you about where to build the 40 new ones?</p>
+  </div>
+  <figure class="ex">
+    <div class="ex-h"><span class="ex-t">Pilot stations: average sessions a day</span><span class="ex-ref">Exhibit 1 · Sessions a day, last year</span></div>
+    <div class="hbar" id="sites"></div>
+    <figcaption>Break-even is 25 sessions a day; a 7-year payback takes about 43. Source: case data.</figcaption>
+  </figure>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Break-even tells you which sites make money. But the CEO's test is a 7-year payback. Work out the sessions a day that takes, then sort the sites.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="120">2 min timer</button></div>
+  </div>
+  <div class="stepper" style="margin-top:14px">
+    <ol class="calc">
+      <li class="st" hidden data-say="Step 1. Profit needed for a 7-year payback. 540 thousand divided by 7 is about 77 thousand dollars a year."><span class="t">1 · Profit for 7-year payback</span><span class="f">$540,000 ÷ 7</span><span class="r tnum">≈$77K</span></li>
+      <li class="st" hidden data-say="Step 2. Extra sessions above break-even. 77 thousand divided by 12 dollars, divided by 360 days, is about 18 a day."><span class="t">2 · Extra sessions needed</span><span class="f">$77K ÷ $12 ÷ 360</span><span class="r tnum">≈18 a day</span></li>
+      <li class="st" hidden data-say="Step 3. Payback threshold. 25 to break even plus 18 is about 43 sessions a day."><span class="t">3 · Payback threshold</span><span class="f">25 + 18</span><span class="r tnum">≈43 a day</span></li>
+      <li class="st" hidden data-say="Step 4. Sort the sites. 2 of 8 lose money, below 25. 3 make money but pay back too slowly, between 25 and 43. Only 3 clear the 7-year target."><span class="t">4 · Sort the pilots</span><span class="f">2 lose money · 3 too slow · 3 meet the target</span><span class="r tnum">3 of 8</span></li>
+      <li class="st" hidden data-say="Step 5. The average trap. The pilots average 36.5 sessions a day, which looks fine. But at that level payback is about 11 years. Building everywhere because the average is profitable would miss the target."><span class="t">5 · The average trap</span><span class="f">Average 36.5 a day → payback ≈ 11 years</span><span class="r tnum">✗</span></li>
+      <li class="st" hidden data-say="Step 6. So what. Location matters more than price. Only build where traffic data supports at least 43 sessions a day, like the busiest interchanges."><span class="t">6 · So what</span><span class="f">Build only where forecasts show 43+ a day</span><span class="r tnum">✓</span></li>
+    </ol>
+    <div class="row"><button class="btn primary small next" type="button">Reveal step 1 of 6</button><button class="btn small reset" type="button">Start over</button></div>
+  </div>
+  <div class="mc" data-answer="0">
+    <div class="mc-head"><p class="stem" data-say>A pilot site averages 38 sessions a day. Should Quillfield build more sites like it?</p></div>
+    <div class="opts">
+      <button class="opt" type="button" data-say>Only with caution. It makes money, but payback is about 9.6 years, past the 7-year target.</button>
+      <button class="opt" type="button" data-say>Yes. It's above break-even, so it's a good site.</button>
+      <button class="opt" type="button" data-say>No. It loses money.</button>
+      <button class="opt" type="button" data-say>Yes. Any site above the pilot average is fine.</button>
+    </div>
+    <div class="why" hidden><p data-say>13 sessions above break-even times 12 dollars times 360 days is about 56 thousand a year. 540 thousand divided by 56 thousand is about 9.6 years. Profitable is not the same as meeting the target.</p></div>
+  </div>
+</section>
+
+<!-- 07 Q4 -->
+<section class="step" id="sizing">
+  <div class="sh"><span class="idx">07</span><h2>Question 4: does the membership pay?</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>Now the membership: 15 dollars a month, and members pay 35 cents instead of 45. We surveyed commuters. Here's what they told us. Is the membership a good idea?</p>
+  </div>
+  <figure class="ex">
+    <div class="ex-h"><span class="ex-t">Commuter survey: sessions a month</span><span class="ex-ref">Exhibit 2 · 400 commuters surveyed</span></div>
+    <div class="hbar" id="survey"></div>
+    <figcaption>About half of commuters said they'd join. Travelers were not surveyed; a typical traveler charges about 3 times on a trip.</figcaption>
+  </figure>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Compare what one commuter is worth per month today with what they're worth as a member. Then ask whether travelers would join.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="120">2 min timer</button><button class="btn small reveal" type="button" aria-controls="h-mem" aria-expanded="false">Show hint</button></div>
+  </div>
+  <div class="ans" id="h-mem" hidden>
+    <p class="who">Hint: two scenarios</p>
+    <p data-say>A member's session earns 35 minus 15 cents, or 20 cents per kWh, times 40 kWh. Do the math twice: once if they keep charging 12 times, and once if they really move to 18.</p>
+  </div>
+  <div class="stepper" style="margin-top:14px">
+    <ol class="calc">
+      <li class="st" hidden data-say="Step 1. A commuter today. 12 sessions a month times 12 dollars is 144 dollars of contribution."><span class="t">1 · Commuter today</span><span class="f">12 sessions × $12</span><span class="r tnum">$144 / mo</span></li>
+      <li class="st" hidden data-say="Step 2. A member's session. 20 cents of margin times 40 kWh is 8 dollars, 4 dollars less than today."><span class="t">2 · Member's session</span><span class="f">($0.35 − $0.15) × 40 kWh</span><span class="r tnum">$8</span></li>
+      <li class="st" hidden data-say="Step 3. If members don't change their habits. 12 times 8 is 96, plus the 15 dollar fee, is 111 dollars. That's 33 dollars a month worse than today."><span class="t">3 · Member, same 12 sessions</span><span class="f">12 × $8 + $15 fee</span><span class="r tnum">$111 (−$33)</span></li>
+      <li class="st" hidden data-say="Step 4. If they really move to 18 sessions. 18 times 8 is 144, plus 15 is 159 dollars. That's 15 dollars a month better."><span class="t">4 · Member, 18 sessions</span><span class="f">18 × $8 + $15 fee</span><span class="r tnum">$159 (+$15)</span></li>
+      <li class="st" hidden data-say="Step 5. Break-even. Members need to charge 144 minus 15, or 129 dollars' worth, at 8 dollars a session. That's about 16 sessions a month, a third more than today."><span class="t">5 · Break-even sessions</span><span class="f">($144 − $15) ÷ $8</span><span class="r tnum">≈16 / mo</span></li>
+      <li class="st" hidden data-say="Step 6. Travelers. A traveler charging 3 times on a trip saves 3 times 40 kWh times 10 cents, or 12 dollars. That's less than the 15 dollar fee, so travelers won't join. The fee keeps the discount for frequent users."><span class="t">6 · Would travelers join?</span><span class="f">Saves 3 × 40 × $0.10 = $12, less than the $15 fee</span><span class="r tnum">No</span></li>
+    </ol>
+    <div class="row"><button class="btn primary small next" type="button">Reveal step 1 of 6</button><button class="btn small reset" type="button">Start over</button></div>
+  </div>
+  <figure class="ex">
+    <div class="ex-h"><span class="ex-t">Monthly contribution from one commuter</span><span class="ex-ref">$ per month</span></div>
+    <div class="hbar" id="mem"></div>
+    <figcaption>The membership only pays if it pulls charging away from competitors. If habits don't change, it's a pure discount.</figcaption>
+  </figure>
+  <div class="calcbox">
+    <h3>Membership calculator</h3>
+    <p class="sub">Starts with the case numbers. Try a $20 fee or a 38 cent member price.</p>
+    <div class="cgrid">
+      <label for="mb-price">Regular price per kWh ($)<input id="mb-price" type="number" min="0" step="0.01" value="0.45"></label>
+      <label for="mb-mprice">Member price per kWh ($)<input id="mb-mprice" type="number" min="0" step="0.01" value="0.35"></label>
+      <label for="mb-cost">Electricity per kWh ($)<input id="mb-cost" type="number" min="0" step="0.01" value="0.15"></label>
+      <label for="mb-fee">Monthly fee ($)<input id="mb-fee" type="number" min="0" step="1" value="15"></label>
+      <label for="mb-now">Sessions a month today<input id="mb-now" type="number" min="0" step="1" value="12"></label>
+      <label for="mb-after">Sessions a month as a member<input id="mb-after" type="number" min="0" step="1" value="18"></label>
+    </div>
+    <div class="cout">
+      <div><div class="k">Commuter today</div><div class="v" id="mb-a">–</div></div>
+      <div><div class="k">As a member</div><div class="v" id="mb-b">–</div></div>
+      <div><div class="k">Change per member</div><div class="v" id="mb-d">–</div></div>
+    </div>
+    <p class="cnote" id="mb-note" aria-live="polite"></p>
+    <div class="cbtns"><button class="btn small" type="button" id="mb-reset">Reset to case numbers</button></div>
+  </div>
+</section>
+
+<!-- 08 Q5 -->
+<section class="step" id="prioritize">
+  <div class="sh"><span class="idx">08</span><h2>Question 5: which levers first?</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>Here are six ways to raise station profit. Score each for ease and impact. Which three should Quillfield start with?</p>
+  </div>
+  <figure class="ex">
+    <div class="ex-h"><span class="ex-t">Lever map: ease × impact</span><span class="ex-ref">Exhibit 3 · Profit levers</span></div>
+    <div class="seg" role="group" aria-label="Which scores to plot">
+      <button class="btn small" type="button" id="mMine" aria-pressed="true">Your scores</button>
+      <button class="btn small" type="button" id="mTeam" aria-pressed="false" disabled>Team's scores</button>
+    </div>
+    <div class="heat">
+      <div>
+        <div id="heatmap"></div>
+        <p class="mapnote" id="mapnote">Your dots appear here as you score each lever.</p>
+      </div>
+      <div>
+        <p class="mapnote" style="margin:0 0 6px">Pick E (ease) and I (impact): 1 is low, 5 is high.</p>
+        <ul class="reg scorer" id="scorer"></ul>
+        <p class="mytop" id="mytop" aria-live="polite">Score all six to see your top three.</p>
+        <div class="ramp" aria-hidden="true">Score <i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><i style="background:var(--h4)"></i><i style="background:var(--h5)"></i> higher</div>
+      </div>
+    </div>
+    <figcaption>Score = ease × impact. Scores are yours to set.</figcaption>
+  </figure>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Score each lever with a one-line reason, then name your top three.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="120">2 min timer</button><button class="btn primary small reveal" type="button" id="rv-prio" aria-controls="a-prio" aria-expanded="false">Show the team's scores</button></div>
+  </div>
+  <div class="ans" id="a-prio" hidden>
+    <p class="who">The team's scores, with reasons</p>
+    <ul class="reg" id="teamlist"></ul>
+    <h3>Say it like this</h3>
+    <div class="script"><p data-say>"I'd start with site selection, because the pilots show location decides whether a station pays back at all. Then time-of-day pricing, to fill quiet hours and charge more at peak. And idle fees, which are easy and free up chargers for paying customers. The membership is worth a small pilot, not a full launch."</p></div>
+  </div>
+</section>
+
+<!-- 09 RECOMMEND -->
+<section class="step" id="recommend">
+  <div class="sh"><span class="idx">09</span><h2>The recommendation</h2><button class="btn small listen" type="button">Listen</button></div>
+  <div class="iv">
+    <p class="who">Interviewer</p>
+    <p data-say>The CEO is on the line. What do you recommend?</p>
+  </div>
+  <div class="move">
+    <span class="lbl">Your move</span>
+    <p data-say>Lead with the answer to both decisions. Then reasons, risks, and next steps.</p>
+    <div class="acts"><button class="btn small timer" type="button" data-secs="60">60s timer</button><button class="btn primary small reveal" type="button" aria-controls="a-rec" aria-expanded="false">Show good vs. better</button></div>
+  </div>
+  <div class="ans" id="a-rec" hidden>
+    <div class="gb">
+      <div class="ans">
+        <p class="who">Good answer</p>
+        <div class="script"><p data-say>"Keep the 45 cent price and launch the membership. A station breaks even at 25 sessions a day and pays back in about 6 years at 45 a day, and members who charge 18 times a month are worth 15 dollars more each month."</p></div>
+      </div>
+      <div class="ans">
+        <p class="who">Better answer</p>
+        <div class="script">
+          <p data-say>"Two decisions. On location: only build where traffic supports at least 43 sessions a day. A station breaks even at 25, but it takes 43 to pay back in 7 years, and only 3 of the 8 pilots clear that bar, even though their average looks fine."</p>
+          <p data-say>"On pricing: keep 45 cents for everyone, and pilot the membership with commuters only. It pays only if members move from 12 to at least 16 sessions a month with us; if they don't, it's a 33 dollar monthly discount per member. The 15 dollar fee keeps travelers out, which is the right design."</p>
+          <p data-say>"Main risks: survey answers usually overstate behavior, and competitors may match the price. Next steps: traffic studies for all 40 sites, a 3-month membership pilot on two commuter corridors with a 16-session target, and idle fees plus time-of-day pricing everywhere."</p>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:12px" data-say>The good answer trusts the averages and the survey. The better answer finds the payback bar, sees the average trap, and turns the membership into a test with a clear pass mark.</p>
+  </div>
+</section>
+
+<!-- 10 DRILLS -->
+<section class="step" id="drills">
+  <div class="sh"><span class="idx">10</span><h2>Bonus drills: unit math</h2><button class="btn small listen" type="button">Listen</button></div>
+  <p class="sub">Quick reps on the kind of math interviewer-led cases ask for.</p>
+  <div class="drill">
+    <h3>Quick reps</h3>
+    <div class="reps">
+      <div class="rep"><p class="rq" data-say>1. Fixed costs are 90 thousand a year. Each session contributes 9 dollars. Break-even sessions a day, over 360 days?</p><div class="acts"><button class="btn primary small reveal" type="button" aria-controls="q1" aria-expanded="false">Show answer</button></div>
+        <div class="ans" id="q1" hidden><div class="script"><p data-say>"About 28 a day. 90 thousand divided by 9 is 10 thousand a year, divided by 360."</p></div></div></div>
+      <div class="rep"><p class="rq" data-say>2. A station has 6 chargers. Each session takes 30 minutes. At 36 sessions a day, how many hours is each charger in use?</p><div class="acts"><button class="btn primary small reveal" type="button" aria-controls="q2" aria-expanded="false">Show answer</button></div>
+        <div class="ans" id="q2" hidden><div class="script"><p data-say>"3 hours. 36 sessions is 18 charger-hours, split across 6 chargers. That's 12.5 percent of the day."</p></div></div></div>
+      <div class="rep"><p class="rq" data-say>3. The price rises from 45 to 50 cents and sessions don't change. By how much does contribution per session rise?</p><div class="acts"><button class="btn primary small reveal" type="button" aria-controls="q3" aria-expanded="false">Show answer</button></div>
+        <div class="ans" id="q3" hidden><div class="script"><p data-say>"From 12 to 14 dollars, up about 17 percent, even though the price rose only 11 percent. Price changes hit margin harder than revenue."</p></div></div></div>
+      <div class="rep"><p class="rq" data-say>4. Why can an offer with a fee be smarter than a plain discount?</p><div class="acts"><button class="btn primary small reveal" type="button" aria-controls="q4" aria-expanded="false">Show answer</button></div>
+        <div class="ans" id="q4" hidden><div class="script"><p data-say>"Because only frequent customers find it worth paying. Occasional customers keep paying full price, so the discount goes to the people whose extra visits you want."</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 TEST -->
+<section class="step test" id="test">
+  <div class="sh"><span class="idx">11</span><h2>Practice test</h2><button class="btn small listen" type="button">Listen</button></div>
+  <p class="sub" data-say>Twelve multiple-choice questions on the Quillfield case. Pick an answer to see the explanation.</p>
+  <div class="scorebar"><span class="score" id="score">0 / 0<small>answered 0 of 12</small></span><button class="btn small" type="button" id="resetTest">Reset test</button></div>
+  <div id="testq"></div>
+  <div class="done" id="done" hidden></div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>An original practice case written in the style of the interviewer-led cases in the NYU Stern Management Consulting Association casebook, including its Quant and Structure ratings. It isn't taken from the casebook: the company, sites, survey, and all figures are invented. This page isn't made by or affiliated with NYU Stern or its MCA.</p>
+    <p>Night-before tip: redo the 25-a-day break-even and the 43-a-day payback bar from memory, then explain why a fee keeps travelers out.</p>
+  </div>
+</footer>
+<div id="tip" hidden role="tooltip"></div>
+<script>
+(function(){
+  "use strict";
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const NS="http://www.w3.org/2000/svg";
+  const svgEl=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const LET="ABCD";
+
+  /* ---------- tooltip ---------- */
+  const tip=$("#tip");
+  function showTip(el,x,y){tip.textContent=el.getAttribute("data-tip");tip.hidden=false;
+    const w=tip.offsetWidth,h=tip.offsetHeight;let L=x+12,T=y-h-10;
+    if(L+w>innerWidth-8)L=x-w-12; if(T<8)T=y+14; tip.style.left=Math.max(8,L)+"px";tip.style.top=T+"px";}
+  document.addEventListener("pointermove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(t)showTip(t,e.clientX,e.clientY);else tip.hidden=true;});
+  document.addEventListener("focusin",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(t){const r=t.getBoundingClientRect();showTip(t,r.left+r.width/2,r.top);}});
+  document.addEventListener("focusout",()=>{tip.hidden=true;});
+  addEventListener("scroll",()=>{tip.hidden=true;},{passive:true});
+
+  /* ---------- reveal toggles ---------- */
+  $$(".reveal").forEach(b=>{const t=document.getElementById(b.getAttribute("aria-controls"));const show=b.textContent;
+    const hide=show.startsWith("Show as")?"Hide table":"Hide";
+    b.addEventListener("click",()=>{const open=t.hidden;t.hidden=!open;b.setAttribute("aria-expanded",String(open));b.textContent=open?hide:show;});});
+
+  /* ---------- timers ---------- */
+  let actx=null;
+  function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;g.gain.setValueAtTime(.0001,actx.currentTime);g.gain.exponentialRampToValueAtTime(.2,actx.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.5);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+.55);}catch(e){}}
+  $$(".timer").forEach(b=>{const secs=+b.dataset.secs,label=b.textContent;let id=null,left=0;
+    const fmt=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+    b.addEventListener("click",()=>{
+      if(id){clearInterval(id);id=null;b.textContent=label;b.setAttribute("aria-pressed","false");return;}
+      try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();}catch(e){}
+      left=secs;b.textContent=fmt(left)+" · stop";b.setAttribute("aria-pressed","true");
+      id=setInterval(()=>{left--;if(left<=0){clearInterval(id);id=null;b.textContent="Time. Answer now";b.setAttribute("aria-pressed","false");beep();setTimeout(()=>{if(!id)b.textContent=label;},4000);return;}b.textContent=fmt(left)+" · stop";},1000);
+    });});
+
+  /* ---------- steppers ---------- */
+  $$(".stepper").forEach(s=>{const steps=$$(".st",s),next=$(".next",s),reset=$(".reset",s);let i=0;
+    const upd=()=>{next.hidden=i>=steps.length;next.textContent="Reveal step "+(i+1)+" of "+steps.length;};
+    next.addEventListener("click",()=>{if(i<steps.length){steps[i].hidden=false;i++;upd();}});
+    reset.addEventListener("click",()=>{steps.forEach(x=>x.hidden=true);i=0;upd();});upd();});
+
+
+  /* ---------- chart builders ---------- */
+  function niceMax(m){const steps=[1,1.5,2,2.5,3,4,5,6,8,10,12,15,20,25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000];for(const s of steps)if(s>=m)return s;return Math.ceil(m/500)*500;}
+  function roundTop(x,y,w,h,r){r=Math.min(r,h,w/2);return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`;}
+  function multiples(el,Q,SER){
+    SER.forEach(s=>{
+      const f=s.f||(v=>String(v)),n=s.v.length,last=n-1;
+      const card=document.createElement("div");card.className="mini";
+      card.innerHTML=`<div class="nm">${s.k}</div><div class="ch">${f(s.v[0])} → ${f(s.v[last])}</div>`;
+      const W=200,H=104,top=18,bot=20,pl=4,pr=4,ph=H-top-bot,band=(W-pl-pr)/n,bw=Math.min(22,band*.58),max=niceMax(Math.max(...s.v)*1.12);
+      const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":`${s.k}: ${s.v.map((v,i)=>Q[i]+" "+f(v)).join(", ")}`});
+      s.v.forEach((v,i)=>{const cx=pl+band*i+band/2,h=Math.max(1,v/max*ph),x=cx-bw/2,y=top+ph-h;
+        svg.appendChild(svgEl("path",{d:roundTop(x,y,bw,h,4),fill:"var(--s1)"}));
+        if(i===0||i===last){const edge=n>6,tx=edge?(i===0?Math.max(1,x):Math.min(W-1,x+bw)):cx,an=edge?(i===0?"start":"end"):"middle";const t=svgEl("text",{x:tx,y:y-5,"text-anchor":an,"font-size":"10.5","font-weight":"600",fill:"var(--fg-2)"});t.textContent=f(v);svg.appendChild(t);}
+        const q=svgEl("text",{x:cx,y:H-5,"text-anchor":"middle","font-size":n>5?"8.5":"9.5",fill:"var(--muted)"});q.textContent=Q[i];svg.appendChild(q);
+        svg.appendChild(svgEl("rect",{x:pl+band*i,y:0,width:band,height:H,fill:"transparent","data-tip":`${s.k} · ${Q[i]}: ${f(v)}`}));
+      });
+      svg.insertBefore(svgEl("line",{x1:0,x2:W,y1:top+ph+.5,y2:top+ph+.5,stroke:"var(--axis)","stroke-width":"1"}),svg.firstChild);
+      card.appendChild(svg);el.appendChild(card);
+    });
+  }
+  function multTable(el,Q,SER){
+    el.innerHTML=`<table><thead><tr><th>Measure</th>${Q.map(q=>`<th class="n">${q}</th>`).join("")}</tr></thead><tbody>${SER.map(s=>`<tr><td>${s.k}</td>${s.v.map(v=>`<td class="n">${(s.f||String)(v)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
+  function axis(el,o){const ax=document.createElement("div");ax.className="axis";
+    ax.innerHTML=`<div></div><div class="ticks">${o.ticks.map(v=>`<span style="left:${v/o.max*100}%">${o.tick(v)}</span>`).join("")}</div>`;el.appendChild(ax);
+    if(o.ref&&o.ref.note){const p=document.createElement("p");p.className="tolnote";p.textContent=o.ref.note;el.appendChild(p);}}
+  /* one bar per row: rows {d,t,v,lab,tip,st:{bad,txt}} */
+  function hbar(el,rows,o){
+    rows.forEach(r=>{const row=document.createElement("div");row.className="hrow";const w=r.v/o.max*100;
+      row.innerHTML=`<div class="hlab"><b>${r.d}</b>${r.t?`<span>${r.t}</span>`:""}${r.st?`<span class="status ${r.st.bad?"bad":"ok"}">${r.st.bad?"▲ ":"✓ "}${r.st.txt}</span>`:""}</div>
+        <div class="track" tabindex="0" data-tip="${r.tip||r.d+": "+r.lab}"><div class="bar" style="width:${Math.max(.4,w)}%"></div><span class="bval" style="left:${w}%">${r.lab}</span>${o.ref?`<div class="tol" style="left:${o.ref.at/o.max*100}%"></div>`:""}</div>`;
+      el.appendChild(row);});
+    axis(el,o);
+  }
+  /* stacked segments, total named in the label: rows {n,d,seg:[[v,cls,tip]]} */
+  function stack(el,rows,o){
+    rows.forEach(r=>{const row=document.createElement("div");row.className="hrow";let x=0,bars="";
+      r.seg.forEach(([v,c,t],i)=>{const left=x/o.max*100,w=v/o.max*100;
+        bars+=`<div class="bar ${c}" tabindex="0" data-tip="${t}" style="left:calc(${left}% + ${i?2:0}px);width:calc(${w}% - ${i?2:0}px);border-radius:${i===r.seg.length-1?"0 4px 4px 0":"0"}"></div>`;x+=v;});
+      row.innerHTML=`<div class="hlab"><b>${r.n}</b><span>${r.d}</span></div><div class="track">${bars}${o.ref?`<div class="tol" style="left:${o.ref.at/o.max*100}%"></div>`:""}</div>`;
+      el.appendChild(row);});
+    axis(el,o);
+  }
+  /* waterfall: rows {n,d,total} or {n,d,delta}; totals neutral, ups blue, downs orange */
+  function waterfall(el,rows,o){let run=0;
+    rows.forEach(r=>{const row=document.createElement("div");row.className="hrow";let bar,lab,tip;
+      if(r.total!==undefined){run=r.total;bar=`<div class="bar b3" style="width:${r.total/o.max*100}%"></div>`;lab=`<span class="bval" style="left:${r.total/o.max*100}%">${o.fmt(r.total)}</span>`;tip=`${r.n}: ${o.fmt(r.total)}`;}
+      else{const a=Math.min(run,run+r.delta),b=Math.max(run,run+r.delta);
+        bar=`<div class="bar ${r.delta<0?"b2":""}" style="left:${a/o.max*100}%;width:${(b-a)/o.max*100}%;border-radius:3px"></div>`;
+        lab=`<span class="bval" style="left:${b/o.max*100}%">${r.delta<0?"−":"+"}${o.fmt(Math.abs(r.delta))}</span>`;tip=`${r.n}: ${r.delta<0?"−":"+"}${o.fmt(Math.abs(r.delta))}`;run+=r.delta;}
+      row.innerHTML=`<div class="hlab"><b>${r.n}</b><span>${r.d}</span></div><div class="track" tabindex="0" data-tip="${tip}">${bar}${lab}</div>`;
+      el.appendChild(row);});
+    axis(el,o);
+  }
+
+  /* ---------- heat map you score ---------- */
+  function heatScorer(HM){
+    const band=s=>s>=20?5:s>=15?4:s>=9?3:s>=5?2:1;
+    const C=54,ox=84,oy=8,G=C*5,HW=ox+G+8,HH=oy+G+52;
+    const hs=svgEl("svg",{viewBox:`0 0 ${HW} ${HH}`,role:"img","aria-label":"Heat map"});
+    for(let X=1;X<=5;X++)for(let Y=1;Y<=5;Y++)
+      hs.appendChild(svgEl("rect",{x:ox+(X-1)*C+1,y:oy+(5-Y)*C+1,width:C-2,height:C-2,rx:3,fill:`var(--h${band(X*Y)})`}));
+    for(let k=1;k<=5;k++){
+      const t=svgEl("text",{x:ox+(k-.5)*C,y:oy+G+15,"text-anchor":"middle","font-size":"11",fill:"var(--fg-2)"});t.textContent=k;hs.appendChild(t);
+      if(HM.lx[k-1]){const t2=svgEl("text",{x:ox+(k-.5)*C,y:oy+G+28,"text-anchor":"middle","font-size":"9.5",fill:"var(--muted)"});t2.textContent=HM.lx[k-1];hs.appendChild(t2);}
+      const u=svgEl("text",{x:ox-8,y:oy+(5-k+.5)*C+4,"text-anchor":"end","font-size":"11",fill:"var(--fg-2)"});u.textContent=k;hs.appendChild(u);
+      if(HM.ly[k-1]){const u2=svgEl("text",{x:ox-20,y:oy+(5-k+.5)*C+4,"text-anchor":"end","font-size":"9.5",fill:"var(--muted)"});u2.textContent=HM.ly[k-1];hs.appendChild(u2);}
+    }
+    const xt=svgEl("text",{x:ox+G/2,y:oy+G+46,"text-anchor":"middle","font-size":"11","font-weight":"600",fill:"var(--fg)"});xt.textContent=HM.xName+" →";hs.appendChild(xt);
+    const yt=svgEl("text",{x:9,y:oy+G/2,"text-anchor":"middle","font-size":"11","font-weight":"600",fill:"var(--fg)",transform:`rotate(-90 9 ${oy+G/2})`});yt.textContent=HM.yName+" →";hs.appendChild(yt);
+    const dots=svgEl("g");hs.appendChild(dots);$("#heatmap").appendChild(hs);
+    const IT=HM.items,xn=HM.xName.toLowerCase(),yn=HM.yName.toLowerCase();
+    const opt=lab=>`<option value="">${lab}</option>`+[1,2,3,4,5].map(v=>`<option value="${v}">${v}</option>`).join("");
+    $("#scorer").innerHTML=IT.map(r=>`<li><span class="id">${r.id}</span><span class="nm">${r.n}</span><span class="pick"><select id="x-${r.id}" aria-label="${r.id} ${xn}, 1 to 5">${opt(HM.xs)}</select><select id="y-${r.id}" aria-label="${r.id} ${yn}, 1 to 5">${opt(HM.ys)}</select><span class="sc" id="s-${r.id}">–</span></span></li>`).join("");
+    const rank=(a,b)=>b.x*b.y-a.x*a.y||b.y-a.y;
+    $("#teamlist").innerHTML=[...IT].sort(rank).map(r=>`<li data-say="${r.id}. ${r.n}. ${HM.xName} ${r.x}, ${yn} ${r.y}, score ${r.x*r.y}. ${r.w}"><span class="id">${r.id}</span><span class="nm"><b>${r.n}</b><span class="w">${r.w}</span></span><span class="sc">${r.x}×${r.y} = ${r.x*r.y}</span></li>`).join("");
+    let mode="mine";
+    const mine=()=>IT.map(r=>({id:r.id,n:r.n,x:+$("#x-"+r.id).value,y:+$("#y-"+r.id).value})).filter(r=>r.x&&r.y);
+    const offsets=n=>n<=1?[[0,0]]:n===2?[[-12,0],[12,0]]:n<=4?[[-12,-11],[12,-11],[-12,11],[12,11]]:[[-15,-11],[0,-11],[15,-11],[-15,11],[0,11],[15,11]];
+    function plot(list){
+      while(dots.firstChild)dots.removeChild(dots.firstChild);
+      const cells={};list.forEach(r=>{const k=r.x+"-"+r.y;(cells[k]=cells[k]||[]).push(r);});
+      Object.values(cells).forEach(arr=>{const off=offsets(arr.length),big=arr.length===1,rad=big?14:arr.length<=4?10:8;
+        arr.forEach((r,j)=>{const cx=ox+(r.x-.5)*C+off[j][0],cy=oy+(5-r.y+.5)*C+off[j][1];
+          const g=svgEl("g",{tabindex:"0","data-tip":`${r.id} · ${r.n}: ${xn} ${r.x}, ${yn} ${r.y}, score ${r.x*r.y}`});
+          g.appendChild(svgEl("circle",{cx,cy,r:rad+2,fill:"var(--surface)"}));
+          g.appendChild(svgEl("circle",{cx,cy,r:rad,fill:"var(--dot)"}));
+          const t=svgEl("text",{x:cx,y:cy+(big?4:3),"text-anchor":"middle","font-size":big?"11":"8.5","font-weight":"600",fill:"var(--dot-ink)"});t.textContent=r.id;g.appendChild(t);
+          dots.appendChild(g);});});
+      hs.setAttribute("aria-label",`Heat map of ${xn} by ${yn}, ${mode==="team"?"team's scores":"your scores"}. `+(list.length?list.map(r=>`${r.id}: ${xn} ${r.x}, ${yn} ${r.y}`).join(". "):"Nothing scored yet."));
+    }
+    function render(){
+      const m=mine();
+      IT.forEach(r=>{const x=+$("#x-"+r.id).value,y=+$("#y-"+r.id).value;$("#s-"+r.id).textContent=x&&y?"= "+x*y:"–";});
+      const top=$("#mytop");
+      if(!m.length)top.textContent=`Score all ${IT.length} to see your top three.`;
+      else if(m.length<IT.length)top.textContent=`Scored ${m.length} of ${IT.length}. Score all ${IT.length} to see your top three.`;
+      else top.textContent="Your top three by score: "+[...m].sort(rank).slice(0,3).map(r=>`${r.id} (${r.x*r.y})`).join(", ")+".";
+      const note=$("#mapnote");
+      if(mode==="team"){plot(IT);note.textContent="Showing the team's scores. Switch back to compare with yours.";}
+      else{plot(m);note.textContent=m.length?"Showing your scores. Shared cells show dots side by side.":"Your dots appear here as you score each one.";}
+    }
+    function setMode(v){mode=v;$("#mMine").setAttribute("aria-pressed",String(v==="mine"));$("#mTeam").setAttribute("aria-pressed",String(v==="team"));render();}
+    $("#scorer").addEventListener("change",()=>{if(mode!=="mine")setMode("mine");else render();});
+    $("#mMine").addEventListener("click",()=>setMode("mine"));
+    $("#mTeam").addEventListener("click",()=>{if(!$("#mTeam").disabled)setMode("team");});
+    $("#rv-prio").addEventListener("click",()=>{$("#mTeam").disabled=false;setMode($("#a-prio").hidden?"mine":"team");});
+    render();
+  }
+
+  const PAGEKEY="quillfield";
+  const usd=(v,d=0)=>(v<0?"−":"")+"$"+Math.abs(v).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+  /* Exhibit 1: pilot sites */
+  const SITES=[["Site A","Rural exit",18],["Site B","Small-town exit",22],["Site C","State route",27],["Site D","Suburban exit",31],["Site E","Regional mall exit",38],["Site F","Commuter interchange",44],["Site G","Major interchange",52],["Site H","City-edge interchange",60]];
+  hbar($("#sites"),SITES.map(([n,t,v])=>({d:n,t,v,lab:String(v),st:v<25?{bad:true,txt:"Loses money"}:v<43?{bad:true,txt:"Payback over 7 years"}:{bad:false,txt:"Meets 7-year target"}})),
+    {max:70,ticks:[0,10,20,30,40,50,60,70],tick:v=>String(v)});
+
+  /* Exhibit 2: survey */
+  hbar($("#survey"),[
+    {d:"With Quillfield today",t:"Average commuter",v:12,lab:"12"},
+    {d:"With competitors today",t:"Same commuters",v:8,lab:"8"},
+    {d:"With Quillfield as a member",t:"What they say they'd do",v:18,lab:"18"},
+  ],{max:24,ticks:[0,6,12,18,24],tick:v=>String(v)});
+
+  hbar($("#mem"),[
+    {d:"Commuter today",t:"12 × $12",v:144,lab:"$144"},
+    {d:"Member, same 12 sessions",t:"12 × $8 + $15",v:111,lab:"$111",st:{bad:true,txt:"−$33 a month"}},
+    {d:"Member, 18 sessions",t:"18 × $8 + $15",v:159,lab:"$159",st:{bad:false,txt:"+$15 a month"}},
+  ],{max:200,ticks:[0,50,100,150,200],tick:v=>"$"+v});
+
+  /* Station calculator */
+  const ST=["price","cost","kwh","fixed","build","sess"],STD={price:0.45,cost:0.15,kwh:40,fixed:108000,build:540000,sess:45};
+  function stCalc(){const g=k=>{const x=parseFloat($("#st-"+k).value);return isNaN(x)?0:x;};
+    const c=(g("price")-g("cost"))*g("kwh"),note=$("#st-note");
+    if(c<=0){["be","pro","pb"].forEach(k=>$("#st-"+k).textContent="–");note.textContent="Price must be above the electricity cost, or every session loses money.";return;}
+    const be=g("fixed")/c/360,pro=g("sess")*360*c-g("fixed"),need=(g("fixed")+g("build")/7)/c/360;
+    $("#st-be").textContent=be.toFixed(1)+" a day";$("#st-pro").textContent=usd(pro);$("#st-pb").textContent=pro>0?(Math.round(g("build")/pro*100)/100)+" yrs":"Never";
+    note.textContent=`Each session contributes ${usd(c,2)}. A 7-year payback takes about ${Math.ceil(need-1e-9)} sessions a day.`;}
+  ST.forEach(k=>$("#st-"+k).addEventListener("input",stCalc));
+  $("#st-reset").addEventListener("click",()=>{ST.forEach(k=>$("#st-"+k).value=STD[k]);stCalc();});
+  stCalc();
+
+  /* Membership calculator (40 kWh per session) */
+  const MB=["price","mprice","cost","fee","now","after"],MBD={price:0.45,mprice:0.35,cost:0.15,fee:15,now:12,after:18},KWH=40;
+  function mbCalc(){const g=k=>{const x=parseFloat($("#mb-"+k).value);return isNaN(x)?0:x;};
+    const reg=(g("price")-g("cost"))*KWH,mem=(g("mprice")-g("cost"))*KWH,a=g("now")*reg,b=g("after")*mem+g("fee"),d=b-a;
+    $("#mb-a").textContent=usd(a);$("#mb-b").textContent=usd(b);$("#mb-d").textContent=(d>=0?"+":"")+usd(d);
+    const be=mem>0?(a-g("fee"))/mem:null,save=3*KWH*(g("price")-g("mprice"));
+    $("#mb-note").textContent=(be!==null?`Members must charge about ${be.toFixed(1)} times a month with Quillfield to break even. `:"Members lose money on every session at that price. ")+`A traveler charging 3 times would save ${usd(save,2)}, so they ${save>g("fee")?"would":"wouldn't"} join. Assumes 40 kWh per session.`;}
+  MB.forEach(k=>$("#mb-"+k).addEventListener("input",mbCalc));
+  $("#mb-reset").addEventListener("click",()=>{MB.forEach(k=>$("#mb-"+k).value=MBD[k]);mbCalc();});
+  mbCalc();
+
+  /* Lever scorer */
+  heatScorer({xName:"Ease",yName:"Impact",xs:"E",ys:"I",lx:["Hard","","Medium","","Easy"],ly:["Small","","Medium","","Large"],items:[
+    {id:"A",n:"Build only at sites forecast for 43+ sessions a day",x:3,y:5,w:"The pilots show location decides payback. Needs traffic data for every site."},
+    {id:"B",n:"Idle fees for cars left plugged in after charging",x:5,y:2,w:"Easy to switch on, and frees chargers for paying customers at busy times."},
+    {id:"C",n:"Time-of-day pricing: cheaper off-peak, higher at peak",x:4,y:3,w:"Fills quiet hours and earns more when demand is high. Simple to run in the app."},
+    {id:"D",n:"Commuter membership",x:3,y:3,w:"Only pays if members shift charging from rivals. Pilot it with a clear target."},
+    {id:"E",n:"Host deals: cafés pay to have chargers out front",x:2,y:3,w:"Drivers spend 30 minutes nearby, which is valuable, but deals take time to sign."},
+    {id:"F",n:"On-site batteries to cut utility demand charges",x:1,y:4,w:"Could lower a big fixed cost, but it's expensive and slow to install."},
+  ]});
+
+  const TEST=[
+    {q:"What two decisions does the CEO need?",o:["Price and location","Brand and logo","Hiring and payroll","Debt and equity"],a:0,w:"How to price charging, and where to build the 40 stations."},
+    {q:"What does one session contribute at 45 cents?",o:["$18","$12","$6","$0.30"],a:1,w:"($0.45 − $0.15) × 40 kWh."},
+    {q:"How many sessions a day to break even?",o:["15","25","43","45"],a:1,w:"$108,000 ÷ $12 = 9,000 a year, ÷ 360."},
+    {q:"At 45 sessions a day, what's the payback?",o:["About 4 years","About 6.25 years","About 9.6 years","Never"],a:1,w:"(45 − 25) × $12 × 360 = $86,400 a year. $540,000 ÷ $86,400."},
+    {q:"About how many sessions a day for a 7-year payback?",o:["25","36","43","60"],a:2,w:"$540,000 ÷ 7 ≈ $77K a year ÷ $12 ÷ 360 ≈ 18 above break-even, so about 43."},
+    {q:"How many of the 8 pilot sites meet the 7-year target?",o:["1","3","5","8"],a:1,w:"Only the 44, 52, and 60-a-day sites."},
+    {q:"Why is the pilots' average (36.5 a day) misleading?",o:["It's above break-even, so every site is fine","At 36.5 a day, payback is about 11 years, so building everywhere misses the target","It includes travelers","It's too high"],a:1,w:"Profitable on average isn't the same as meeting the payback bar."},
+    {q:"What does a member's session contribute?",o:["$12","$8","$4","$15"],a:1,w:"($0.35 − $0.15) × 40 kWh."},
+    {q:"If members keep charging 12 times a month, the membership is…",o:["Worth +$15 a member","Worth −$33 a member","Break-even","Worth +$33 a member"],a:1,w:"12 × $8 + $15 = $111, vs. $144 today."},
+    {q:"How many sessions a month must a member charge to break even?",o:["About 12","About 16","About 18","About 24"],a:1,w:"($144 − $15) ÷ $8 ≈ 16, about a third more than today."},
+    {q:"Why won't most travelers join?",o:["They don't like apps","A 3-session trip saves $12, less than the $15 fee","They pay with cash","They can't charge at rest stops"],a:1,w:"The fee screens out occasional users, so the discount goes to frequent ones."},
+    {q:"Which is the strongest opening line for your recommendation?",o:["Let me recap the survey.","Pricing is complicated.","Build only at sites with 43+ sessions a day, keep 45 cents, and pilot the membership with commuters.","Launch the membership everywhere."],a:2,w:"Answer both decisions first, then give the reasons."},
+  ];
+  const testq=$("#testq");
+  TEST.forEach((t,n)=>{const d=document.createElement("div");d.className="mc";d.dataset.answer=t.a;d.dataset.group="test";
+    d.innerHTML=`<div class="mc-head"><p class="stem" data-say="Question ${n+1}. ${t.q.replace(/"/g,"&quot;")}"><span class="qn">Q${n+1}</span>${t.q}</p><button class="btn small qlisten" type="button" aria-label="Listen to question ${n+1}">Listen</button></div>
+      <div class="opts">${t.o.map(o=>`<button class="opt" type="button" data-say="${o.replace(/"/g,"&quot;")}">${o}</button>`).join("")}</div>
+      <div class="why" hidden><p data-say="${t.w.replace(/"/g,"&quot;")}">${t.w}</p></div>`;
+    testq.appendChild(d);});
+
+  /* ---------- multiple choice engine ---------- */
+  function setupMC(mc){const opts=$$(".opt",mc);
+    opts.forEach((o,i)=>{if(!o.querySelector(".L")){const x=document.createElement("span");x.className="x";while(o.firstChild)x.appendChild(o.firstChild);
+        const L=document.createElement("span");L.className="L";L.textContent=LET[i];o.append(L,x);
+        o.dataset.say=LET[i]+". "+(o.dataset.say||x.textContent);}
+      o.addEventListener("click",()=>answer(mc,i));});}
+  function answer(mc,i){if(mc.dataset.done)return;mc.dataset.done="1";const a=+mc.dataset.answer,opts=$$(".opt",mc);
+    opts.forEach((o,k)=>{o.disabled=true;if(k===a){o.classList.add("right");o.insertAdjacentHTML("beforeend",`<span class="tag">✓ ${k===i?"Correct":"Answer"}</span>`);}
+      else if(k===i){o.classList.add("wrong");o.insertAdjacentHTML("beforeend",`<span class="tag">✕ Your pick</span>`);}});
+    mc.dataset.correct=String(i===a);$(".why",mc).hidden=false;if(mc.dataset.group==="test")score();}
+  function resetMC(mc){delete mc.dataset.done;delete mc.dataset.correct;$$(".opt",mc).forEach(o=>{o.disabled=false;o.classList.remove("right","wrong");const t=$(".tag",o);if(t)t.remove();});$(".why",mc).hidden=true;}
+  $$(".mc").forEach(setupMC);
+  function score(){const qs=$$('.mc[data-group="test"]'),done=qs.filter(q=>q.dataset.done),right=done.filter(q=>q.dataset.correct==="true").length;
+    $("#score").innerHTML=`${right} / ${done.length}<small>answered ${done.length} of ${qs.length}</small>`;
+    const box=$("#done");if(done.length===qs.length){box.hidden=false;
+      box.innerHTML=typeof DONE_MSG==="function"?DONE_MSG(right,qs.length):`<b>${right} of ${qs.length}.</b> `+(right>=11?"You're ready. Run the recommendation in step 09 out loud once more and get some sleep.":right>=8?"Solid. Re-read the explanations you missed, then run steps 04 and 09 out loud.":"Go back to the primer in step 01, then retake the test. The terms will stick on the second pass.");}
+    else box.hidden=true;}
+  $("#resetTest").addEventListener("click",()=>{$$('.mc[data-group="test"]').forEach(resetMC);score();$("#test").scrollIntoView();});
+  score();
+
+  /* ---------- read aloud, with a voice menu ---------- */
+  const synth=window.speechSynthesis,rateSel=$("#rate"),vSel=$("#voicePick");
+  try{const r=localStorage.getItem(PAGEKEY+"-rate");if(r)rateSel.value=r;}catch(e){}
+  rateSel.addEventListener("change",()=>{try{localStorage.setItem(PAGEKEY+"-rate",rateSel.value);}catch(e){}});
+  let speakingBtn=null,voice=null,voices=[];
+  const vrank=v=>(/natural|neural/i.test(v.name)?0:/premium/i.test(v.name)?1:/enhanced/i.test(v.name)?2:/google/i.test(v.name)?3:4)+(/^en[-_]US/i.test(v.lang)?0:.5);
+  function loadVoices(){
+    if(!synth)return;
+    voices=synth.getVoices().filter(v=>/^en/i.test(v.lang)).sort((a,b)=>vrank(a)-vrank(b)||a.name.localeCompare(b.name));
+    if(!vSel)return;
+    let saved=null;try{saved=localStorage.getItem(PAGEKEY+"-voice");}catch(e){}
+    vSel.innerHTML=voices.length?voices.map((v,i)=>`<option value="${i}">${v.name.replace(/[<>&"]/g,"")}${vrank(v)<2?" (natural)":""}</option>`).join(""):'<option value="">Browser default</option>';
+    let idx=voices.findIndex(v=>v.name===saved);if(idx<0)idx=0;
+    if(voices.length)vSel.value=String(idx);voice=voices[idx]||null;
+  }
+  if(vSel)vSel.addEventListener("change",()=>{voice=voices[+vSel.value]||null;try{localStorage.setItem(PAGEKEY+"-voice",voice?voice.name:"");}catch(e){}});
+  loadVoices();
+  if(synth&&"onvoiceschanged" in synth)synth.addEventListener("voiceschanged",loadVoices);
+  function textOf(el){return(el.getAttribute("data-say")||el.innerText||"").replace(/\s+/g," ").trim();}
+  function visible(el){return!!(el.offsetWidth||el.offsetHeight||el.getClientRects().length);}
+  function stop(){if(synth)synth.cancel();if(speakingBtn){speakingBtn.textContent=speakingBtn.dataset.label;speakingBtn.setAttribute("aria-pressed","false");speakingBtn=null;}}
+  function speakChunks(btn,chunks){
+    if(!synth||!chunks.length)return;
+    if(speakingBtn===btn){stop();return;}
+    stop();
+    speakingBtn=btn;btn.dataset.label=btn.dataset.label||btn.textContent;btn.textContent="Stop";btn.setAttribute("aria-pressed","true");
+    chunks.forEach((c,i)=>{const u=new SpeechSynthesisUtterance(c);u.rate=+rateSel.value;if(voice){u.voice=voice;u.lang=voice.lang;}else u.lang="en-US";
+      if(i===chunks.length-1)u.onend=()=>{if(speakingBtn===btn)stop();};synth.speak(u);});
+  }
+  function speak(btn,els){const chunks=[];els.filter(visible).forEach(el=>{textOf(el).split(/(?<=[.?!])\s+(?=[A-Z0-9"“])/).forEach(c=>{if(c)chunks.push(c);});});speakChunks(btn,chunks);}
+  if(!synth){$$(".listen,.qlisten").forEach(b=>b.hidden=true);$(".speed").hidden=true;const vb=$(".voicebar");if(vb)vb.hidden=true;}
+  else{
+    $$(".listen").forEach(b=>{b.dataset.label=b.textContent;b.addEventListener("click",()=>{const sec=b.closest("section");speak(b,$$("[data-say]",sec).filter(el=>!el.parentElement.closest("[data-say]")));});});
+    document.addEventListener("click",e=>{const b=e.target.closest(".qlisten");if(!b)return;const mc=b.closest(".mc");speak(b,$$("[data-say]",mc).filter(el=>!el.parentElement.closest("[data-say]")));});
+    const vt=$("#voiceTest");if(vt){vt.dataset.label=vt.textContent;vt.addEventListener("click",()=>speakChunks(vt,["Hi. This is how I'll read your case.","Pick another voice if this one sounds robotic."]));}
+  }
+  /* ---------- rail highlight ---------- */
+  const chips=$$("#chips a"),map=new Map(chips.map(a=>[a.getAttribute("href").slice(1),a]));
+  if("IntersectionObserver" in window){
+    const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){chips.forEach(c=>c.classList.remove("on"));const a=map.get(en.target.id);if(a){a.classList.add("on");const p=a.parentElement;p.scrollTo({left:a.offsetLeft-p.clientWidth/2+a.offsetWidth/2,behavior:"smooth"});}}});},{rootMargin:"-45% 0px -50% 0px"});
+    $$("section.step").forEach(s=>io.observe(s));
+  }
+})();
+</script>
+</body><script src="tts.js"></script>
+<script src="chat.js"></script>
+<script src="glossary.js"></script>
+</html>
